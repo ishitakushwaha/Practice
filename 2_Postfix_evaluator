@@ -1,0 +1,51 @@
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+
+public class Postfix_evaluator {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        String st  = sc.nextLine();
+        String s[] = st.split(" ");
+
+        if(s.length == 1) {
+            System.out.println(s[0]);
+            return;
+        }
+
+        Stack<Double> stack = new Stack<Double>();
+        stack.push(Double.valueOf(s[0]));
+        stack.push(Double.valueOf(s[1]));
+
+        for(int i = 2; i < s.length; i++) {
+            double a, b;
+
+            if(s[i].equals("+")) {
+                a = stack.pop();
+                b = stack.pop();
+                stack.push(a + b);
+            }
+            else if(s[i].equals("-")) {
+                a = stack.pop();
+                b = stack.pop();
+                stack.push(b - a);
+            }
+
+            else if(s[i].equals("*")) {
+                a = stack.pop();
+                b = stack.pop();
+                stack.push(a*b);
+            }
+
+            else if(s[i].equals("/")) {
+                a = stack.pop();
+                b = stack.pop();
+                stack.push(b / a);
+            }
+
+            else
+                stack.push(Double.parseDouble(s[i]));
+        }
+        System.out.println(stack.peek());
+    }
+}
