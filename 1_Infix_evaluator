@@ -1,0 +1,62 @@
+import java.io.*;
+import java.lang.*;
+import java.util.*;
+class infix_evaluator {
+
+    public static void main(String args[]) {
+        System.out.println(computeInfixExpr("5 + 10 / 2 + 3 * 2"));
+    }
+
+    public static double computeInfixExpr(String input) {
+        String s[] = input.split(" ");
+        int i = 0;
+        double operLeft = Double.valueOf(s[i++]);
+        while(i < s.length) {
+            String operator = s[i++];
+            double operRight = Double.parseDouble(s[i++]);
+            switch(operator) {
+                case "*":
+                    operLeft = operLeft * operRight;
+                    break;
+                case "/":
+                    operLeft = operLeft / operRight;
+                    break;
+                case "+":
+                    while( i < s.length) {
+                        String operator2 = s[i++];
+                        if(operator2.equals("+") || operator2.equals("-")) {
+                            i--; break;
+                        }
+                        if(operator2.equals("*")) {
+                            operRight = operRight * Double.parseDouble(s[i++]);
+                        }
+
+                        if(operator2.equals("/")) {
+                            operRight = operRight / Double.parseDouble(s[i++]);
+                        }
+                    }
+                    operLeft = operLeft + operRight;
+                    break;
+                case "-":
+                    String operator2 = s[i++];
+                    while( i < s.length) {
+                        if(operator2.equals("+") || operator2.equals("-")) {
+                            i--;
+                            break;
+                        }
+                        if (operator2.equals("*")) {
+                            operRight = operRight * Double.parseDouble(s[i++]);
+                        }
+                        if (operator2.equals("/")) {
+                            operRight = operRight / Double.parseDouble(s[i++]);
+                        }
+                    }
+                    operLeft = operLeft - operRight;
+                    break;
+                default:
+                    System.out.println("tera chota hai");
+            }
+        }
+        return operLeft;
+    }
+}
